@@ -8,6 +8,8 @@ public class ProbeMethod {
     public String name() { return name; }
     /** The arguments to the method, in the same format as in Java bytecode. */
     public String signature() { return signature; }
+    /** Is this method application, as opposed to library */
+    public boolean isApplication() { return isApplication; }
     public int hashCode() {
         return cls.hashCode() + name.hashCode() + signature.hashCode();
     }
@@ -39,4 +41,5 @@ public class ProbeMethod {
     private ProbeClass cls;
     private String name;
     private String signature;
+    private boolean isApplication;
 }
