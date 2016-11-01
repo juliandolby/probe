@@ -16,10 +16,12 @@ public class CallGraphBFS {
         String cls = null;
         String method = null;
         String sig = null;
+        String app = null;
         String pkg2 = null;
         String cls2 = null;
         String method2 = null;
         String sig2 = null;
+        String app2 = null;
         LinkedList ignore = new LinkedList();
         for( int i = 0; i < args.length; i++ ) {
             if( !doneOptions && args[i].equals("--") ) doneOptions = true;
@@ -28,10 +30,12 @@ public class CallGraphBFS {
             else if( cls == null ) cls = args[i];
             else if( method == null ) method = args[i];
             else if( sig == null ) sig = args[i];
+            else if( app == null ) app = args[i];
             else if( pkg2 == null ) pkg2 = args[i];
             else if( cls2 == null ) cls2 = args[i];
             else if( method2 == null ) method2 = args[i];
             else if( sig2 == null ) sig2 = args[i];
+            else if( app2 == null ) app2 = args[i];
             else ignore.add(args[i]);
         }
         if( pkg2 == null ) pkg2 = pkg;
@@ -54,12 +58,12 @@ public class CallGraphBFS {
         Set reachables = a.findReachables();
 
         ProbeClass pc = ObjectManager.v().getClass(pkg, cls);
-        ProbeMethod pm = ObjectManager.v().getMethod(pc, method, sig);
+        ProbeMethod pm = ObjectManager.v().getMethod(pc, method, sig, Boolean.valueOf(app));
         if( !reachables.contains(pm) ) {
             System.out.println( ""+pm+" not reachable in call graph" );
         }
         ProbeClass pc2 = ObjectManager.v().getClass(pkg2, cls2);
-        ProbeMethod pm2 = ObjectManager.v().getMethod(pc2, method2, sig2);
+        ProbeMethod pm2 = ObjectManager.v().getMethod(pc2, method2, sig2, Boolean.valueOf(app2));
         if( !reachables.contains(pm2) ) {
             System.out.println( ""+pm2+" not reachable in call graph" );
         }
@@ -69,8 +73,9 @@ public class CallGraphBFS {
             String icls = (String) ignore.removeFirst();
             String imethod = (String) ignore.removeFirst();
             String isig = (String) ignore.removeFirst();
+            String iapp = (String) ignore.removeFirst();
             ProbeClass ipc = ObjectManager.v().getClass(ipkg, icls);
-            ProbeMethod ipm = ObjectManager.v().getMethod(ipc, imethod, isig);
+            ProbeMethod ipm = ObjectManager.v().getMethod(ipc, imethod, isig, Boolean.valueOf(iapp));
             if( !reachables.contains(ipm) ) {
                 System.out.println( ""+ipm+" not reachable in call graph" );
             }

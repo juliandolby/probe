@@ -34,8 +34,9 @@ public class TextReader {
 				String name = in.readLine();
 				String signature = in.readLine();
 				String cls = in.readLine();
-
-				ProbeMethod m = ObjectManager.v().getMethod(nodeToClass.get(cls), name, signature);
+				String app = in.readLine();
+				
+				ProbeMethod m = ObjectManager.v().getMethod(nodeToClass.get(cls), name, signature, Boolean.valueOf(app));
 				nodeToMethod.put(id, m);
 			} else if (line.equals(Util.EntrypointTag)) {
 				String id = in.readLine();

@@ -370,7 +370,8 @@ public class GXLReader {
             nodeToMethod.put( node, ObjectManager.v().getMethod(
                         (ProbeClass) nodeToClass.get(classNode),
                         getString(node, "name"),
-                        getString(node, "signature")));
+                        getString(node, "signature"),
+                        Boolean.valueOf(getString(node, "isApplication"))));
         }
 
         for( Iterator nodeIt = fields.iterator(); nodeIt.hasNext(); ) {

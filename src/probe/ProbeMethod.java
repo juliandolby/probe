@@ -27,13 +27,14 @@ public class ProbeMethod {
 
     /* End of public methods. */
 
-    ProbeMethod( ProbeClass cls, String name, String signature ) {
+    ProbeMethod( ProbeClass cls, String name, String signature, boolean isApplication ) {
         if( cls == null ) throw new NullPointerException();
         if( name == null ) throw new NullPointerException();
         if( signature == null ) throw new NullPointerException();
         this.cls = cls;
         this.name = name;
         this.signature = signature;
+        this.isApplication = isApplication;
     }
 
     /* End of package methods. */

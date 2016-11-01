@@ -43,8 +43,8 @@ public class ObjectManager {
      * @param signature - The arguments to the method, in the same format as in
      *                    Java bytecode.
      **/
-    public ProbeMethod getMethod( ProbeClass cls, String name, String signature ) {
-        ProbeMethod newm = new ProbeMethod(cls, name, signature);
+    public ProbeMethod getMethod( ProbeClass cls, String name, String signature, boolean isApplication ) {
+        ProbeMethod newm = new ProbeMethod(cls, name, signature,isApplication);
         ProbeMethod ret = (ProbeMethod) methodMap.get(newm);
         if( ret == null ) {
             methodMap.put( newm, newm );
@@ -53,8 +53,8 @@ public class ObjectManager {
         return ret;
     }
     
-    public ProbeMethod getMethod(String pkg, String cls, String name, String signature) {
-    	return getMethod(getClass(pkg, cls), name, signature);
+    public ProbeMethod getMethod(String pkg, String cls, String name, String signature, boolean isApplication) {
+    	return getMethod(getClass(pkg, cls), name, signature, isApplication);
     }
 
     /** Returns the object representing a field, creating it if necessary.
