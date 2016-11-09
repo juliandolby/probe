@@ -70,6 +70,13 @@ public class CallGraph {
 		return methods;
 	}
 
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		for (CallEdge edge:edges()) {
+			sb.append(edge.toString()).append("\n");
+		}
+		return sb.toString();
+	}
 	/* End of public methods. */
 
 	private Set<ProbeMethod> entryPoints = new HashSet<ProbeMethod>();

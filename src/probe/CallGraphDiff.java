@@ -228,6 +228,78 @@ public class CallGraphDiff {
 
 		return ret;
 	}
+	
+	// By Gyunghee
+	public static void cgdiff(CallGraph fst, CallGraph snd) {
+		//CallGraph diff = diff(supergraph, subgraph);
+
+		AbsEdgeWeights weights = new EdgeWeights(fst, snd, true);
+		/*if (dashF) {
+			weights = new EdgeWeights(supergraph, subgraph, dashD);
+		} else if (dashFF) {
+			weights = new EdgeWeights2(supergraph, subgraph, dashD);
+		}*/
+		
+		CallGraph diff = diff(fst, snd);
+			Util.out.println("===========================================================================");
+			Util.out.println("Missing entry points in second graph: " + diff.entryPoints().size());
+			Util.out.println("===========================================================================");
+			final AbsEdgeWeights weightsF = weights;
+			TreeSet<ProbeMethod> ts = new TreeSet<ProbeMethod>(new Comparator<ProbeMethod>() {
+				public int compare(ProbeMethod pm1, ProbeMethod pm2) {
+					if (weightsF.weight(pm1) < weightsF.weight(pm2))
+						return -1;
+					if (weightsF.weight(pm1) > weightsF.weight(pm2))
+						return 1;
+					return 0;
+				}
+			});
+			ts.addAll(diff.entryPoints());
+			for (ProbeMethod m : ts) {
+				Util.out.println(weights.weight(m) + " " + m);
+			}
+
+		Util.out.println("===========================================================================");
+		Util.out.println("Missing call edges in second graph : " + diff.edges().size());
+		Util.out.println("===========================================================================");
+		final AbsEdgeWeights weightsF1 = weights;
+		TreeSet<CallEdge> ts1 = new TreeSet<CallEdge>(new Comparator<CallEdge>() {
+			public int compare(CallEdge e1, CallEdge e2) {
+				if (weightsF1.weight(e1) < weightsF1.weight(e2))
+					return -1;
+				if (weightsF1.weight(e1) > weightsF1.weight(e2))
+					return 1;
+				return 0;
+			}
+		});
+		ts1.addAll(diff.edges());
+		for (CallEdge e : ts1) {
+			Util.out.println(weights.weight(e) + " " + e);
+		}
+
+		Set<ProbeMethod> missingReachables = new HashSet<ProbeMethod>();
+		missingReachables.addAll(fst.findReachables());
+		missingReachables.removeAll(snd.findReachables());
+			for (Iterator<ProbeMethod> methodIt = missingReachables.iterator(); methodIt.hasNext();) {
+				final ProbeMethod method = methodIt.next();
+				if (method.cls().pkg().startsWith("java."))
+					methodIt.remove();
+			}
+
+		Util.out.println("===========================================================================");
+		Util.out.println("Number of reachable methods missing in second graph : " + missingReachables.size());
+		Util.out.println("===========================================================================");
+		
+			List<String> lines = new ArrayList<String>();
+			for (ProbeMethod pm : missingReachables) {
+				lines.add(pm.toString());
+			}
+			Collections.sort(lines);
+			for (String line : lines) {
+				Util.out.println(line);
+			}
+
+	}
 
 	private static CallGraph readCallGraph(String filename) {
 		CallGraph ret;
