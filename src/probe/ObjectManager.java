@@ -133,7 +133,7 @@ public class ObjectManager {
     /* End of public methods. */
 
     private Map classMap = new HashMap();
-    private Map methodMap = new HashMap();
+    protected Map methodMap = new HashMap();
     private Map fieldMap = new HashMap();
     private Map stmtMap = new HashMap();
     private Map parameterMap = new HashMap();
